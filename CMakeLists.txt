@@ -7,10 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 qt_standard_project_setup()
 
+file(GLOB_RECURSE SOURCES src/*.cpp src/*.ui)
+
 qt_add_executable(Gregory
-    MainWindow.ui
-    MainWindow.cpp
-    main.cpp
+    ${SOURCES}
 )
 
 target_include_directories(Gregory PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -21,8 +21,10 @@ set_target_properties(Gregory PROPERTIES
     MACOSX_BUNDLE ON
 )
 
-include(CTest)
 enable_testing()
+
+add_executable( TestEvent src/Event.cpp test/test_Event.cpp )
+add_test( NAME Event COMMAND TestEvent )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
